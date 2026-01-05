@@ -1,0 +1,8 @@
+MSH|^~\&|Mindray|Lab|Pathgram||202601041200||ORU^R01|MSG0001|P|2.3.1
+PID|1||123456^^^Hospital^MR||Doe^John||19800101|M
+OBR|1||1001|CBC^Complete Blood Count
+OBX|1|NM|WBC^White Blood Cells||5.2|10^9/L|4.0-11.0|N|||F
+OBX|2|NM|HGB^Hemoglobin||14.3|g/dL|13.5-17.5|N|||F
+OBX|3|ED|IMG^Scattergram||/base64/;R0lGODlhAQABAIABAP8AAP///yH5BAEAAAEALAAAAAABAAEAAAICRAEAOw==
+
+

@@ -1,0 +1,90 @@
+openapi: 3.0.3
+info:
+  title: Pathgram LIS Listener API
+  version: 0.1.0
+paths:
+  /api/v1/samples:
+    get:
+      summary: List samples
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: mode
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: list of samples
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sample'
+  /api/v1/samples/{sample_id}/retransmit:
+    post:
+      summary: Retransmit sample to LIS (admin)
+      parameters:
+        - name: sample_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: accepted
+        '404':
+          description: not found
+components:
+  schemas:
+    Sample:
+      type: object
+      properties:
+        sampleId:
+          type: string
+        patientId:
+          type: string
+        receivedAt:
+          type: string
+          format: date-time
+        sourceIp:
+          type: string
+        status:
+          type: string
+        mode:
+          type: string
+
+websocket:
+  url: /ws/updates
+  description: |
+    Server will push the following event types as JSON over a websocket connection:
+      - new-sample
+      - status-change
+      - processing-error
+  messages:
+    new-sample:
+      schema:
+        type: object
+        properties:
+          eventType:
+            type: string
+            example: new-sample
+          sampleId:
+            type: string
+          timestamp:
+            type: string
+            format: date-time
+
