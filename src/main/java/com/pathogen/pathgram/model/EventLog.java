@@ -5,7 +5,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "EventLog")
+@Table(name = "event_log")
 public class EventLog {
 
     @Id
@@ -13,7 +13,8 @@ public class EventLog {
 
     private UUID sampleId;
 
-    @Lob
+    // Use explicit TEXT column to match the database schema and avoid CLOB/OID mapping mismatches
+    @Column(name = "raw_message", columnDefinition = "text")
     private String rawMessage;
 
     @Enumerated(EnumType.STRING)
@@ -53,4 +54,3 @@ public class EventLog {
 
     public enum Direction { inbound, outbound }
 }
-

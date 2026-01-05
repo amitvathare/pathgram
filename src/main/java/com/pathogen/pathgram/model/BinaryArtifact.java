@@ -5,7 +5,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "BinaryArtifact")
+@Table(name = "binary_artifact")
 public class BinaryArtifact {
 
     @Id
@@ -43,4 +43,3 @@ public class BinaryArtifact {
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
 }
-

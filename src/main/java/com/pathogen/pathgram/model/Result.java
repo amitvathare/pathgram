@@ -5,7 +5,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Result")
+@Table(name = "result")
 public class Result {
 
     @Id
@@ -46,4 +46,3 @@ public class Result {
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
 }
-

@@ -1,6 +1,6 @@
 -- SQL DDL for LIS Event Listener Backend
 
-CREATE TABLE IF NOT EXISTS Patient (
+CREATE TABLE IF NOT EXISTS patient (
     patient_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL,
     dob DATE,
@@ -9,9 +9,9 @@ CREATE TABLE IF NOT EXISTS Patient (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
-CREATE TABLE IF NOT EXISTS Sample (
+CREATE TABLE IF NOT EXISTS sample (
     sample_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    patient_id UUID REFERENCES Patient(patient_id),
+    patient_id UUID REFERENCES patient(patient_id),
     received_at TIMESTAMP WITH TIME ZONE,
     source_ip TEXT,
     status VARCHAR(50),
@@ -19,9 +19,9 @@ CREATE TABLE IF NOT EXISTS Sample (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
-CREATE TABLE IF NOT EXISTS Result (
+CREATE TABLE IF NOT EXISTS result (
     result_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    sample_id UUID REFERENCES Sample(sample_id),
+    sample_id UUID REFERENCES sample(sample_id),
     obx_code TEXT,
     value TEXT,
     units TEXT,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS Result (
 
 CREATE TYPE direction_enum AS ENUM ('inbound','outbound');
 
-CREATE TABLE IF NOT EXISTS EventLog (
+CREATE TABLE IF NOT EXISTS event_log (
     event_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     sample_id UUID,
     raw_message TEXT,
@@ -42,9 +42,9 @@ CREATE TABLE IF NOT EXISTS EventLog (
     created_by TEXT
 );
 
-CREATE TABLE IF NOT EXISTS BinaryArtifact (
+CREATE TABLE IF NOT EXISTS binary_artifact (
     artifact_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    sample_id UUID REFERENCES Sample(sample_id),
+    sample_id UUID REFERENCES sample(sample_id),
     type TEXT,
     storage_path TEXT,
     content_type TEXT,
@@ -52,20 +52,20 @@ CREATE TABLE IF NOT EXISTS BinaryArtifact (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
-CREATE TABLE IF NOT EXISTS ModeMapping (
+CREATE TABLE IF NOT EXISTS mode_mapping (
     mode TEXT PRIMARY KEY,
     lis_test_code TEXT,
     analyzer_mode TEXT
 );
 
-CREATE TABLE IF NOT EXISTS "User" (
+CREATE TABLE IF NOT EXISTS app_user (
     user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     username TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
     roles TEXT
 );
 
-CREATE TABLE IF NOT EXISTS AuditLog (
+CREATE TABLE IF NOT EXISTS audit_log (
     audit_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     entity TEXT,
     entity_id UUID,
@@ -75,8 +75,7 @@ CREATE TABLE IF NOT EXISTS AuditLog (
     details TEXT
 );
 
--- Sample seed for ModeMapping
-INSERT INTO ModeMapping(mode, lis_test_code, analyzer_mode) VALUES
+-- Sample seed for mode_mapping
+INSERT INTO mode_mapping(mode, lis_test_code, analyzer_mode) VALUES
 ('CBC','CBC01','MODE_A')
 ON CONFLICT (mode) DO NOTHING;
-
